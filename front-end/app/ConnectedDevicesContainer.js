@@ -7,14 +7,11 @@ const ConnectedDevicesContainer = () => {
   const [showList, setShowList] = useState(false);
 
   return showList ? (
-    <View style={styles.bottom}>
-      <ConnectedDevicesList
-        buttonPress={() => {
-          setShowList(false);
-        }}
-      />
-      <ConnectedDevicesButton onPress={() => setShowList(true)} />
-    </View>
+    <ConnectedDevicesList
+      buttonPress={() => {
+        setShowList(false);
+      }}
+    />
   ) : (
     <View style={styles.bottom}>
       <ConnectedDevicesButton onPress={() => setShowList(true)} />
@@ -24,10 +21,9 @@ const ConnectedDevicesContainer = () => {
 
 const styles = StyleSheet.create({
   bottom: {
-    flex: 0.1,
+    flex: 0.5,
     justifyContent: "flex-end",
-    alignItems: "center",
-    marginBottom: "3%",
+    marginBottom: 36,
   },
 });
 

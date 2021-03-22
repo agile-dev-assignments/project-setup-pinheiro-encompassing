@@ -14,7 +14,7 @@ import { Overlay } from "react-native-elements";
 const ConnectedDevicesList = ({ buttonPress }) => {
   let [devices, loadDevices] = useState([]);
   let [isLoading, setIsLoading] = useState(true);
-  const url = "https://my.api.mockaroo.com/connecteddevices.json?key=a7c3ef30";
+  const url = "https://my.api.mockaroo.com/devicelist.json?key=2d122c20";
   let mounted = false;
   useEffect(() => {
     fetch(url)
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#01003b",
     borderRadius: 10,
     padding: 10,
-    marginVertical: "2%",
+    marginVertical: 10,
   },
   buttonText: {
     color: "#fff",

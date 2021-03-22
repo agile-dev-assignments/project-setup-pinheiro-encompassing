@@ -9,7 +9,7 @@ import ClipboardContainer from "./app/ClipboardContainer";
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-      <ClipboardContainer />
+      <LoginScreen />
     </SafeAreaView>
   );
 }

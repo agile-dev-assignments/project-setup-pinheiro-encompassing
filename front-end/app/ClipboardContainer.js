@@ -1,65 +1,87 @@
-import React from "react";
-import { SafeAreaView } from "react-native";
-import { View, StyleSheet, Text } from "react-native";
-import ClipboardList from "./ClipboardList";
-import ConnectedDevicesContainer from "./ConnectedDevicesContainer";
-import LogoutButton from "./Logout";
+import { StatusBar } from 'expo-status-bar';
+import React,{ useState } from 'react';
+import { Button, StyleSheet, Text, TextInput, View ,MyAppHeaderText} from 'react-native';
 
 const ClipboardContainer = () => {
-  return (
-    <SafeAreaView>
-      <View style={styles.header}>
-        <View style={styles.headerText}>
-          <Text style={styles.containerHeaderText}>CopyPasta</Text>
-        </View>
-        <View style={styles.headerText}>
-          <Text style={styles.containerSubHeaderText}>sharing. made easy.</Text>
-        </View>
-      </View>
-      <View style={styles.listContainer}>
-        <ClipboardList />
-        <View style={styles.userInfo}>
-          <Text style={styles.containerDetailText}>
-            Rahat Hossan User: #42-34141
-          </Text>
-        </View>
-      </View>
-      <ConnectedDevicesContainer />
-      <LogoutButton />
-    </SafeAreaView>
-  );
-};
+    const [code, setText] = useState('');
+    return (
+        <View>
+            <Text
+              style={externalStyle.textSTYLE}
+            >Clipboard</Text>
+            
+            <Text
+            style= {externalStyle.textCLIP1}
+            >[Date/Time]</Text>
 
-const styles = StyleSheet.create({
-  listContainer: {
-    flex: 1,
-  },
-  header: {
-    flex: 0.18,
-  },
-  headerText: {
-    backgroundColor: "#01003b",
-    borderRadius: 10,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "flex-start",
-  },
-  containerHeaderText: {
-    fontSize: 48,
-    color: "#fff",
-  },
-  containerSubHeaderText: {
-    fontSize: 22,
-    color: "#fff",
-  },
-  containerDetailText: {
-    fontSize: 10,
-    color: "lightgray",
-  },
-  userInfo: {
-    marginTop: 20,
-    alignItems: "center",
-  },
-});
+            <Text
+            style= {externalStyle.textCLIP2}
+            >[Date/Time]</Text>
 
-export default ClipboardContainer;
+            <Text
+            style= {externalStyle.textCLIP3}
+            >[Date/Time]</Text>
+        </View>
+    );
+  };
+
+  const externalStyle=StyleSheet.create({
+    
+    textSTYLE:{
+        flex:.25,
+        height:80,
+        width:300,
+        color: 'blue',
+        fontSize:40,
+        backgroundColor: 'white',
+        alignItems: "center",
+        textAlign:"left",
+        textAlignVertical: "center",
+        
+        
+    },
+    textCLIP1:{
+        flex:1,
+        height:200,
+        width:300,
+        color: 'black',
+        fontSize:30,
+        
+        backgroundColor: 'white',
+        alignItems: "center",
+        textAlign:"center",
+        justifyContent: "center",
+        marginTop : 100,
+        marginBottom : 100,
+    },
+    textCLIP2:{
+        flex:1,
+        height:200,
+        width:300,
+        color: "black",
+        fontSize:30,
+        backgroundColor: "white",
+        alignItems: "center",
+        textAlign:"center",
+        marginBottom : 100,
+    },
+    textCLIP3:{
+        flex:1,
+        height:200,
+        width:300,
+        color: "black",
+        fontSize:30,
+        backgroundColor: "white",
+        alignItems: "center",
+        textAlign:"center",
+
+
+    }
+
+})
+
+
+
+  export default ClipboardContainer;
+
+  
