@@ -17,7 +17,7 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "copypasta.expo.googlesignin",
+      "bundleIdentifier": "com.copypasta.copypasta",
       "config": {
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.978388863015-4h47p1bsiaim8kktofqk9ssual0as82q"

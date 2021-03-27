@@ -9,6 +9,27 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from "react-native";
+//import GoogleAuthentication from "./GoogleAuthentication";
+import * as Google from 'expo-google-app-auth';
+
+async function signInWithGoogleAsync() {
+  try {
+    const result = await Google.logInAsync({
+      androidClientId: "978388863015-7ilvtnu772i66f22vj5t1d3enli35h8u.apps.googleusercontent.com",
+      iosClientId: "338339360277-4tbfrfnrekunig3sah2cm6l7cu15n6to.apps.googleusercontent.com",
+      scopes: ['profile', 'email'],
+    });
+
+    if (result.type === 'success') {
+      return result.accessToken;
+    } else {
+      return { cancelled: true };
+    }
+  } catch (e) {
+    return { error: true };
+  }
+}
+
 
 const LoginScreen = (onPress) => {
   const [code, setText] = useState("");
@@ -30,7 +51,7 @@ const LoginScreen = (onPress) => {
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
       <View style={{ flex: 0.1 }} />
-      <TouchableOpacity style={styles.button} onPress={onPress.onPress}>
+      <TouchableOpacity style={styles.button} onPress={signInWithGoogleAsync}>
         <Text style={styles.buttonText}>Google Sign In</Text>
       </TouchableOpacity>
       <View style={{ flex: 0.15 }} />

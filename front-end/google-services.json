@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "978388863015",
+    "project_id": "copypasta-24032",
+    "storage_bucket": "copypasta-24032.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:978388863015:android:04082270c75e4615476602",
+        "android_client_info": {
+          "package_name": "copypasta.expo.googlesignin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "978388863015-7ilvtnu772i66f22vj5t1d3enli35h8u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxu4DI4kQ3zAXl999lW0HnSlbJE-hUgt8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "978388863015-7ilvtnu772i66f22vj5t1d3enli35h8u.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "978388863015-4h47p1bsiaim8kktofqk9ssual0as82q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.copypasta.copypasta"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
