@@ -1,12 +1,12 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import * as firebase from 'firebase';
 
-const LogoutButton = ({ onPress }) => {
+const LogoutButton = () => {
   return (
     <TouchableOpacity
       style={styles.button}
-      // Add navigation link here Karan
-      onPress={onPress.onPress}
+      onPress={() => firebase.auth().signOut()}
     >
       <Text style={styles.text}>Logout</Text>
     </TouchableOpacity>
