@@ -17,21 +17,13 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.copypasta.copypasta",
-      "config": {
-        "googleSignIn": {
-          "reservedClientId": "com.googleusercontent.apps.978388863015-4h47p1bsiaim8kktofqk9ssual0as82q"
-        }
-      },
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      },
-      "package": "copypasta.expo.googlesignin",
-      "googleServicesFile": "./google-services.json"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
