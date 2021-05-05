@@ -16,15 +16,31 @@ import LogoutButton from "./Logout";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoginScreen from "./LoginScreen";
 import { userName } from "./LoginScreen";
-import { id } from "./LoginScreen";
+import { userID } from "./LoginScreen";
+import firebase from "firebase";
 
 const ClipboardContainer = ({ navigation }) => {
-  const [nameValue, setNameValue] = useState("");
-  const [text,setText] = useState("");  
-  const user = userName;
-  console.log("MADE IT HERE");
-  console.log(id);
-  const UID = id;
+  var [nameValue, setNameValue] = useState("");
+  var [text,setText] = useState("");  
+  var user = userName;
+  var UID = userID;
+  if (user == "" && UID == ""){
+    user = "New User";
+    UID = generateUID() 
+    firebase
+      .database()
+      .ref("/users/" + UID)
+      .set({
+        gmail: "",
+        //profile_picture: picture,
+        name: "New User",
+        uid: UID,
+        created_at: Date.now(),
+      });
+  }
+
+  console.log("clipboard username="+user);
+  console.log("clipboard userid=" + UID);
 
   useEffect(() => {
     getData();
@@ -98,6 +114,15 @@ const ClipboardContainer = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
+function generateUID() {
+  var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  var charsLengthMinusOne = chars.length - 1
+  var result = ''
+  for (var i = 8; i > 0; --i)
+      result += chars[Math.round(Math.random() * (charsLengthMinusOne))]
+  return result;
+}
 
 const styles = StyleSheet.create({
   container: {
