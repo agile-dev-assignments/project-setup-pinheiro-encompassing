@@ -41,7 +41,7 @@ const ClipboardList = () => {
     console.log(snapshot.val()["clipboard"]);
     uData = snapshot.val()["clipboard"];
     console.log(uData);
-    setIsLoading(false);
+    //setIsLoading(false);
   });
 
   const renderItem = ({ item }) => (
