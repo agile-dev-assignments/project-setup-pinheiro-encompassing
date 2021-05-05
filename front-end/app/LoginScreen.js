@@ -73,21 +73,14 @@ const LoginScreen = ({ navigation }) => {
 
             const check = result.additionalUserInfo.isNewUser;
             //console.log(result.user.given_name  result.user.last);
-            var name = result.additionalUserInfo.profile.name;
+            const name = result.additionalUserInfo.profile.name;
             userName = name;
             console.log("HERE");
             console.log(userName);
             console.log("HERE2");
-            //get's user ID
-            var tmp = result.additionalUserInfo.profile.sub;
-            console.log("TESTING ID OUTPUT");
-            console.log(tmp);
-            console.log(result.additionalUserInfo.profile.sub);
-            id = String(tmp).slice(-8)
-            console.log(id);
-
+            console.log(name);
             console.log("TESTING UID");
-            //console.log(generateUID());
+            //console.log(generateUID()); 
 
             storeData(name);
 
