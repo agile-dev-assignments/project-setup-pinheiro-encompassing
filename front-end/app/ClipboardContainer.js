@@ -7,6 +7,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Clipboard,
 } from "react-native";
 import ClipboardList from "./ClipboardList";
 import ConnectedDevicesContainer from "./ConnectedDevicesContainer";
@@ -57,6 +58,12 @@ const ClipboardContainer = ({ navigation }) => {
       // error reading value
     }
   }
+  const writeToClipboard= async () => {
+    console.log("you saw me in write to clipboard!!!");
+    console.log(UID);
+    await Clipboard.setString(UID);
+    alert("Copied to Clipboard!");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -89,7 +96,9 @@ const ClipboardContainer = ({ navigation }) => {
               flex: 0.3,
             }}
           >
-            <Text style={styles.containerDetailText}>UID: #{UID}</Text>
+            <TouchableOpacity onPress={writeToClipboard}>
+              <Text style={styles.containerDetailText}>UID: #{UID}</Text>
+            </TouchableOpacity>
           </View>
         </View>
         <TextInput
