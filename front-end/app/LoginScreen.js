@@ -32,8 +32,7 @@ const LoginScreen = ({ navigation }) => {
       for (var i = 0; i < providerData.length; i++) {
         if (
           providerData[i].providerId ===
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
-          providerData[i].uid === googleUser.getBasicProfile().getId()
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID
         ) {
           // We don't need to reauth the Firebase connection.
           return true;
@@ -118,7 +117,7 @@ const LoginScreen = ({ navigation }) => {
                     name: name,
                     uid: uid,
                     created_at: Date.now(),
-                    clipboard: "",
+                    clipboard: [],
                   });
               }
               else {
@@ -138,6 +137,7 @@ const LoginScreen = ({ navigation }) => {
                   if (data.child("gmail").val() == result.user.email){
                     userID = data.child("uid").val();
                     userName = data.child("name").val();
+                    console.log("gmails were equal)");
                   }
                 });
               });

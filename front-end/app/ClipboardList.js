@@ -40,26 +40,29 @@ const ClipboardList = () => {
   };
 
   if (singleLoad) {
+    console.log("beginload");
     firebase
       .database()
-      .ref("/users/" + userID)
+      .ref("/users/" + userID+"/clipboard")
       .on("value", function (snapshot) {
-        uData = snapshot.val()["clipboard"];
-        loadData(uData);
-        console.log("udata: " + uData);
-        setSingleLoad(false);
+        snapshot.forEach(function(data) {
+          console.log(data);
+        })
+        // uData = snapshot.val()["clipboard"];
+        // console.log("udata: " + uData);
+        // setSingleLoad(false);
       });
   }
 
   console.log("MADE IT HERE");
 
-  firebase
-    .database()
-    .ref("/users/" + userID)
-    .on("value", function (snapshot) {
-      uData = snapshot.val()["clipboard"];
-      console.log("udata: " + uData);
-    });
+  // firebase
+  //   .database()
+  //   .ref("/users/" + userID)
+  //   .on("value", function (snapshot) {
+  //     uData = snapshot.val()["clipboard"];
+  //     console.log("udata: " + uData);
+  //   });
 
   const renderItem = ({ item }) => (
     <Item date={item.date} content={item.content} />
