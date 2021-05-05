@@ -14,14 +14,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Google from "expo-google-app-auth";
 import { ThemeConsumer } from "react-native-elements";
 import firebase from "firebase";
+import { Systrace } from "react-native";
 
 var userName = "";
-var id = 1;
 var userID = "";
 
 const LoginScreen = ({ navigation }) => {
   const [code, setText] = useState("");
-
+  
   function signIntest() {
     Alert.alert("loggedIn");
   }
@@ -85,35 +85,63 @@ const LoginScreen = ({ navigation }) => {
             storeData(name);
 
             if (check) {
-              const uid = result.user.uid;
+              console.log("hereio1" + code);
+              var uidExists = false;
+              var uid = "";
+              var mail = "";
+              userData = firebase.database().ref("/users/").on("value", function(snapshot) {
+                snapshot.forEach(function(data) {
+                  if (data.child("uid").exists() && String(data.child("uid").val())==String(code)){
+                    uidExists = true;
+                    uid = data.child("uid").val();
+                  }
+                  console.log(data.child("uid").exists()+ " " + data.child("uid").val() + " " + code + " " +String(data.child("uid").val())==String(code));
+                });
+              });
+              if (!uidExists){
+                uid = generateUID();
+              }
               userID = uid;
-              const mail = result.user.email;
-              const first = result.additionalUserInfo.profile.given_name;
-              const last = result.additionalUserInfo.profile.family_name;
+              mail = result.user.email;
+              name = result.additionalUserInfo.profile.name;
               //const picture = result.additionalUserInfo.photoUrl;
               //const locale = result.additionalUserInfo.locale;
-
-              firebase
-                .database()
-                .ref("/users/" + uid)
-                .set({
-                  gmail: mail,
-                  //profile_picture: picture,
-                  first_name: first,
-                  last_name: last,
-                  created_at: Date.now(),
-                  data: [''],
-                  id: id,
-                  clipboard: "",
-                });
+              console.log("hereio2" + uid);
+              if (!uidExists){
+                firebase
+                  .database()
+                  .ref("/users/" + uid)
+                  .set({
+                    gmail: mail,
+                    //profile_picture: picture,
+                    name: name,
+                    uid: uid,
+                    created_at: Date.now(),
+                  });
+              }
+              else {
+                firebase
+                  .database()
+                  .ref("/users/" + uid)
+                  .update({
+                    gmail: mail,
+                    name : name,
+                  })
+              }
+              console.log("hereio3" + uid);
+                
             } else {
-              firebase
-                .database()
-                .ref("/users/" + uid)
-                .update({
-                  last_logged_in: Date.now(),
+              userData = firebase.database().ref("/users/").on("value", function(snapshot) {
+                snapshot.forEach(function(data) {
+                  if (data.child("gmail").val() == result.user.email){
+                    userID = data.child("uid").val();
+                    userName = data.child("name").val();
+                  }
                 });
+              });
             }
+            navigation.navigate("ClipboardContainer");
+            console.log("hereio4");
           })
           .catch((error) => {
             // Handle Errors here.
@@ -134,6 +162,8 @@ const LoginScreen = ({ navigation }) => {
       }
     });
   }
+  
+  console.log("here1.5")
 
   async function signInWithGoogleAsync() {
     try {
@@ -154,7 +184,7 @@ const LoginScreen = ({ navigation }) => {
     } catch (e) {
       return { error: true };
     }
-  } 
+  }
 
   function codeSignIn () {
     try{
@@ -189,7 +219,7 @@ const LoginScreen = ({ navigation }) => {
       <View style={{ flex: 0.2 }} />
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("ClipboardContainer")}
+        onPress={codeSignIn}
       >
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
@@ -243,10 +273,19 @@ const styles = StyleSheet.create({
   },
 });
 
+function generateUID() {
+  var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  var charsLengthMinusOne = chars.length - 1
+  var result = ''
+  for (var i = 8; i > 0; --i)
+      result += chars[Math.round(Math.random() * (charsLengthMinusOne))]
+  return result;
+}
+
 console.log("HERE 3");
 console.log(userName);
-
+console.log(userID);
 export default LoginScreen;
+
 export { userName };
-export { id };
 export { userID };
