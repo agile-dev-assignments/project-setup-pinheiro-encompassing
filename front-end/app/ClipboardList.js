@@ -18,58 +18,61 @@ import { set } from "react-native-reanimated";
 var uData = "";
 
 const Item = ({ item }) => {
-  console.log("current item is="+JSON.stringify(item));
+  console.log("current item is=" + JSON.stringify(item));
   console.log(JSON.stringify(item));
   const writeToClipboard = async () => {
     console.log("you saw me in write to clipboard!!!");
-    await Clipboard.setString(item);
+    await Clipboard.setString(JSON.stringify(item).slice(1, -1));
     alert("Copied to Clipboard!");
   };
   return (
     <TouchableOpacity style={styles.item} onPress={writeToClipboard}>
-      <Text style={styles.clipboardContent}>{JSON.stringify(item).slice(1, -1)}</Text>
+      <Text style={styles.clipboardContent}>
+        {JSON.stringify(item).slice(1, -1)}
+      </Text>
     </TouchableOpacity>
   );
 };
 
 const ClipboardList = () => {
-  let [data, loadData] = useState([]);  
+  let [data, loadData] = useState([]);
   let [isLoading, setIsLoading] = useState(true);
   let [refreshing, setRefreshing] = React.useState(false);
   var dataList = [];
   const onRefresh = () => {
+    setRefreshing(true);
     console.log("refresh start");
     console.log(dataList);
     setIsLoading(true);
     firebase
       .database()
-      .ref("/users/" + userID+"/clipboard")
+      .ref("/users/" + userID + "/clipboard")
       .on("value", function (snapshot) {
         dataList = [];
-        snapshot.forEach(function(data) {
+        snapshot.forEach(function (data) {
           console.log(data);
           dataList.push(data);
-        })
+        });
       });
     dataList = dataList.reverse();
     setIsLoading(false);
     console.log("refresh complete");
     console.log(dataList);
+    setRefreshing(false);
   };
   let [singleLoad, setSingleLoad] = useState(true);
-
 
   if (singleLoad) {
     console.log("beginload");
     firebase
       .database()
-      .ref("/users/" + userID+"/clipboard")
+      .ref("/users/" + userID + "/clipboard")
       .on("value", function (snapshot) {
         dataList = [];
-        snapshot.forEach(function(data) {
+        snapshot.forEach(function (data) {
           console.log(data);
           dataList.push(data);
-        })
+        });
         // uData = snapshot.val()["clipboard"];
         // console.log("udata: " + uData);
         // setSingleLoad(false);
@@ -88,20 +91,20 @@ const ClipboardList = () => {
   //   });
 
   const renderItem = ({ item }) => {
-    return (<Item item={item}/>);
+    return <Item item={item} />;
   };
-  console.log("single load is "+ singleLoad);
+  console.log("single load is " + singleLoad);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {/* <TouchableOpacity style={styles.item} onPress={writeToClipboard}> */}
-        <FlatList
-          data={dataList}
-          renderItem={renderItem}
-          style={styles.list}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        />
+      <FlatList
+        data={dataList}
+        renderItem={renderItem}
+        style={styles.list}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      />
       {/* </TouchableOpacity> */}
     </SafeAreaView>
   );
