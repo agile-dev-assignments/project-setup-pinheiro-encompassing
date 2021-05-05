@@ -81,7 +81,7 @@ const LoginScreen = ({ navigation }) => {
             console.log(name);
 
             console.log("TESTING UID");
-            //console.log(generateUID());
+            //console.log(generateUID()); 
 
             storeData(name);
 
