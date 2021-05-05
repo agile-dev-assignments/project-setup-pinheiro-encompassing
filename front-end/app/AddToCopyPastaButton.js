@@ -1,11 +1,14 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet, Text } from "react-native";
-
+import {id} from "./LoginScreen.js";
+import firebase from "firebase";
+import {userID} from "./LoginScreen.js";
 
 const AddToCopyPastaButton = ({ copyText }) => {
   const cl = async () => {
-    //SEND DATA TO FIREBASE HERE
+    console.log("made it here");
     console.log(copyText);
+    firebase.database().ref("/users/"+userID).update({clipboard: copyText});
   };
   return (
     <TouchableOpacity style={styles.button} onPress={cl}>
