@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native";
 
 import {
-  View,
+  View, 
   StyleSheet,
   Text,
   TextInput,

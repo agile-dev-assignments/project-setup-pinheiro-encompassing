@@ -185,7 +185,7 @@ const LoginScreen = ({ navigation }) => {
     } catch (e) {
       return { error: true };
     }
-  }
+  } 
 
   function codeSignIn () {
     try{
