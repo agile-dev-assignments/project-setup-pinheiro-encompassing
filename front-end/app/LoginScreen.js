@@ -134,7 +134,7 @@ const LoginScreen = ({ navigation }) => {
             console.log("Credential: " + errorCredential);
           });
       } else {
-        console.log("User already signed-in Firebase.");
+        console.log("User already signed-in to Firebase.");
       }
     });
   }
