@@ -38,12 +38,12 @@ const ClipboardList = () => {
   let [data, loadData] = useState([]);
   let [isLoading, setIsLoading] = useState(true);
   let [refreshing, setRefreshing] = React.useState(false);
+  let [displayData, setDisplayData] = useState([]);
   var dataList = [];
   const onRefresh = () => {
     setRefreshing(true);
     console.log("refresh start");
     console.log(dataList);
-    setIsLoading(true);
     firebase
       .database()
       .ref("/users/" + userID + "/clipboard")
@@ -55,14 +55,14 @@ const ClipboardList = () => {
         });
       });
     dataList = dataList.reverse();
-    setIsLoading(false);
+    setDisplayData(dataList);
     console.log("refresh complete");
     console.log(dataList);
     setRefreshing(false);
   };
   let [singleLoad, setSingleLoad] = useState(true);
 
-  if (singleLoad) {
+  useEffect(() => {
     console.log("beginload");
     firebase
       .database()
@@ -75,12 +75,12 @@ const ClipboardList = () => {
         });
         // uData = snapshot.val()["clipboard"];
         // console.log("udata: " + uData);
-        // setSingleLoad(false);
       });
-  }
-  dataList = dataList.reverse();
-  console.log(dataList.length);
-  console.log("MADE IT HERE");
+    dataList = dataList.reverse();
+    setDisplayData(dataList);
+    console.log(dataList.length);
+    console.log("MADE IT HERE");
+  }, []);
 
   // firebase
   //   .database()
@@ -98,7 +98,7 @@ const ClipboardList = () => {
     <SafeAreaView style={{ flex: 1 }}>
       {/* <TouchableOpacity style={styles.item} onPress={writeToClipboard}> */}
       <FlatList
-        data={dataList}
+        data={displayData}
         renderItem={renderItem}
         style={styles.list}
         refreshControl={
