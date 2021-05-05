@@ -14,14 +14,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Google from "expo-google-app-auth";
 import { ThemeConsumer } from "react-native-elements";
 import firebase from "firebase";
-import { Systrace } from "react-native";
 
 var userName = "";
+var id = 1;
 var userID = "";
 
 const LoginScreen = ({ navigation }) => {
   const [code, setText] = useState("");
-  
+
   function signIntest() {
     Alert.alert("loggedIn");
   }
@@ -73,76 +73,47 @@ const LoginScreen = ({ navigation }) => {
 
             const check = result.additionalUserInfo.isNewUser;
             //console.log(result.user.given_name  result.user.last);
-            var name = result.additionalUserInfo.profile.name;
+            const name = result.additionalUserInfo.profile.name;
             userName = name;
             console.log("HERE");
             console.log(userName);
             console.log("HERE2");
             console.log(name);
-
             console.log("TESTING UID");
-            //console.log(generateUID());
+            //console.log(generateUID()); 
 
             storeData(name);
 
             if (check) {
-              console.log("hereio1" + code);
-              var uidExists = false;
-              var uid = "";
-              var mail = "";
-              userData = firebase.database().ref("/users/").on("value", function(snapshot) {
-                snapshot.forEach(function(data) {
-                  if (data.child("uid").exists() && String(data.child("uid").val())==String(code)){
-                    uidExists = true;
-                    uid = data.child("uid").val();
-                  }
-                  console.log(data.child("uid").exists()+ " " + data.child("uid").val() + " " + code + " " +String(data.child("uid").val())==String(code));
-                });
-              });
-              if (!uidExists){
-                uid = generateUID();
-              }
+              const uid = result.user.uid;
               userID = uid;
-              mail = result.user.email;
-              name = result.additionalUserInfo.profile.name;
+              const mail = result.user.email;
+              const first = result.additionalUserInfo.profile.given_name;
+              const last = result.additionalUserInfo.profile.family_name;
               //const picture = result.additionalUserInfo.photoUrl;
               //const locale = result.additionalUserInfo.locale;
-              console.log("hereio2" + uid);
-              if (!uidExists){
-                firebase
-                  .database()
-                  .ref("/users/" + uid)
-                  .set({
-                    gmail: mail,
-                    //profile_picture: picture,
-                    name: name,
-                    uid: uid,
-                    created_at: Date.now(),
-                  });
-              }
-              else {
-                firebase
-                  .database()
-                  .ref("/users/" + uid)
-                  .update({
-                    gmail: mail,
-                    name : name,
-                  })
-              }
-              console.log("hereio3" + uid);
-                
-            } else {
-              userData = firebase.database().ref("/users/").on("value", function(snapshot) {
-                snapshot.forEach(function(data) {
-                  if (data.child("gmail").val() == result.user.email){
-                    userID = data.child("uid").val();
-                    userName = data.child("name").val();
-                  }
+
+              firebase
+                .database()
+                .ref("/users/" + uid)
+                .set({
+                  gmail: mail,
+                  //profile_picture: picture,
+                  first_name: first,
+                  last_name: last,
+                  created_at: Date.now(),
+                  data: [''],
+                  id: id,
+                  clipboard: "",
                 });
-              });
+            } else {
+              firebase
+                .database()
+                .ref("/users/" + uid)
+                .update({
+                  last_logged_in: Date.now(),
+                });
             }
-            navigation.navigate("ClipboardContainer");
-            console.log("hereio4");
           })
           .catch((error) => {
             // Handle Errors here.
@@ -151,20 +122,18 @@ const LoginScreen = ({ navigation }) => {
             // The email of the user's account used.
             var email = error.email;
             // The firebase.auth.AuthCredential type that was used.
-            var credential = error.credential;
+            var errorCredential = error.credential;
             // ...
-            console.log("Error code: " + error.code);
-            console.log("Error Message: " + error.message);
+            console.log("Error code: " + errorCode);
+            console.log("Error Message: " + errorMessage);
             console.log("Email: " + email);
-            console.log("Credential: " + error.credential);
+            console.log("Credential: " + errorCredential);
           });
       } else {
-        console.log("User already signed-in Firebase.");
+        console.log("User already signed-in to Firebase.");
       }
     });
   }
-  
-  console.log("here1.5")
 
   async function signInWithGoogleAsync() {
     try {
@@ -220,7 +189,7 @@ const LoginScreen = ({ navigation }) => {
       <View style={{ flex: 0.2 }} />
       <TouchableOpacity
         style={styles.button}
-        onPress={codeSignIn}
+        onPress={() => navigation.navigate("ClipboardContainer")}
       >
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
@@ -274,19 +243,10 @@ const styles = StyleSheet.create({
   },
 });
 
-function generateUID() {
-  var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  var charsLengthMinusOne = chars.length - 1
-  var result = ''
-  for (var i = 8; i > 0; --i)
-      result += chars[Math.round(Math.random() * (charsLengthMinusOne))]
-  return result;
-}
-
 console.log("HERE 3");
 console.log(userName);
-console.log(userID);
-export default LoginScreen;
 
+export default LoginScreen;
 export { userName };
+export { id };
 export { userID };
