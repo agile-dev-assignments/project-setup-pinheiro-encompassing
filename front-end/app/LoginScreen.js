@@ -102,6 +102,7 @@ const LoginScreen = ({ navigation }) => {
               if (!uidExists){
                 uid = generateUID();
               }
+              userID = uid;
               mail = result.user.email;
               name = result.additionalUserInfo.profile.name;
               //const picture = result.additionalUserInfo.photoUrl;
