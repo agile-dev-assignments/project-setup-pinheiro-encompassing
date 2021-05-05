@@ -154,6 +154,24 @@ const LoginScreen = ({ navigation }) => {
     } catch (e) {
       return { error: true };
     }
+  } 
+
+  function codeSignIn () {
+    try{
+      userData = firebase.database().ref("/users/").on("value", function(snapshot) {
+        snapshot.forEach(function(data) {
+          if (data.child("uid").val() == code){
+            userID = data.child("uid").val();
+            userName = data.child("name").val();
+          }
+        });
+      });
+      console.log("codeSignInCompleted");
+      navigation.navigate("ClipboardContainer");
+    }
+    catch (e) {
+      return {error: true}
+    }
   }
   return (
     <SafeAreaView style={styles.containerLogin}>
