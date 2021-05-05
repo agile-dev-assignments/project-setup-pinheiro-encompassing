@@ -22,7 +22,7 @@ const Item = ({ item }) => {
   console.log(JSON.stringify(item));
   const writeToClipboard = async () => {
     console.log("you saw me in write to clipboard!!!");
-    await Clipboard.setString(item);
+    await Clipboard.setString(JSON.stringify(item).slice(1, -1));
     alert("Copied to Clipboard!");
   };
   return (
