@@ -118,6 +118,7 @@ const LoginScreen = ({ navigation }) => {
                     name: name,
                     uid: uid,
                     created_at: Date.now(),
+                    clipboard: "",
                   });
               }
               else {
