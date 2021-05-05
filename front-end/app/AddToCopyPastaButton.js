@@ -1,5 +1,7 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet, Text } from "react-native";
+
+
 const AddToCopyPastaButton = ({ copyText }) => {
   const cl = async () => {
     //SEND DATA TO FIREBASE HERE
