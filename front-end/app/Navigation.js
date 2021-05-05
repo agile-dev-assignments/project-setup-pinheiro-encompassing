@@ -33,24 +33,24 @@ const Stack = createStackNavigator();
 function App() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="LoadingScreen">
-                <Stack.Screen name="LoadingScreen"
+            <Stack.Navigator initialRouteName="ClipboardContainer">
+                {<Stack.Screen name="LoadingScreen"
                     component={LoadingScreen} options={{
                         headerShown: false,
-                    }} />
-                <Stack.Screen name="ClipboardContainer"
-                    component={ClipboardContainer} options={{
-                        headerShown: false,
-                    }} />
-                <Stack.Screen name="LoginScreen"
+                    }} />}
+                {<Stack.Screen name="LoginScreen"
                     component={LoginScreen} options={{
                         headerShown: false,
-                    }} />
+                    }} />}
 
-                { <Stack.Screen name="Logout"
+                {<Stack.Screen name="Logout"
                     component={Logout} options={{
                         headerShown: false,
-                    }} />     }
+                    }} />}
+                {<Stack.Screen name="ClipboardContainer"
+                    component={ClipboardContainer} options={{
+                        headerShown: false,
+                    }} />}
             </Stack.Navigator>
         </NavigationContainer>
     );
