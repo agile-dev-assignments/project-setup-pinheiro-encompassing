@@ -13,6 +13,7 @@ import {
   SafeAreaView,
   RefreshControl,
 } from "react-native";
+import { set } from "react-native-reanimated";
 
 var uData = "";
 
@@ -20,6 +21,7 @@ const Item = ({ item }) => {
   console.log("current item is="+JSON.stringify(item));
   console.log(JSON.stringify(item));
   const writeToClipboard = async () => {
+    console.log("you saw me in write to clipboard!!!");
     await Clipboard.setString(item);
     alert("Copied to Clipboard!");
   };
@@ -31,14 +33,31 @@ const Item = ({ item }) => {
 };
 
 const ClipboardList = () => {
-  let [data, loadData] = useState([]);
+  let [data, loadData] = useState([]);  
   let [isLoading, setIsLoading] = useState(true);
-  let [singleLoad, setSingleLoad] = useState(true);
+  let [refreshing, setRefreshing] = React.useState(false);
   var dataList = [];
-  const writeToClipboard = async () => {
-    await Clipboard.setString(data);
-    alert("Copied to Clipboard!");
+  const onRefresh = () => {
+    console.log("refresh start");
+    console.log(dataList);
+    setIsLoading(true);
+    firebase
+      .database()
+      .ref("/users/" + userID+"/clipboard")
+      .on("value", function (snapshot) {
+        dataList = [];
+        snapshot.forEach(function(data) {
+          console.log(data);
+          dataList.push(data);
+        })
+      });
+    dataList = dataList.reverse();
+    setIsLoading(false);
+    console.log("refresh complete");
+    console.log(dataList);
   };
+  let [singleLoad, setSingleLoad] = useState(true);
+
 
   if (singleLoad) {
     console.log("beginload");
@@ -46,6 +65,7 @@ const ClipboardList = () => {
       .database()
       .ref("/users/" + userID+"/clipboard")
       .on("value", function (snapshot) {
+        dataList = [];
         snapshot.forEach(function(data) {
           console.log(data);
           dataList.push(data);
@@ -77,6 +97,10 @@ const ClipboardList = () => {
         <FlatList
           data={dataList}
           renderItem={renderItem}
+          style={styles.list}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
         />
       {/* </TouchableOpacity> */}
     </SafeAreaView>
