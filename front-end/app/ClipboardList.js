@@ -16,14 +16,16 @@ import {
 
 var uData = "";
 
-const Item = ({ content }) => {
+const Item = ({ item }) => {
+  console.log("current item is="+JSON.stringify(item));
+  console.log(JSON.stringify(item));
   const writeToClipboard = async () => {
-    await Clipboard.setString(content);
+    await Clipboard.setString(item);
     alert("Copied to Clipboard!");
   };
   return (
     <TouchableOpacity style={styles.item} onPress={writeToClipboard}>
-      <Text style={styles.clipboardContent}>{content}</Text>
+      <Text style={styles.clipboardContent}>{JSON.stringify(item).slice(1, -1)}</Text>
     </TouchableOpacity>
   );
 };
@@ -32,8 +34,7 @@ const ClipboardList = () => {
   let [data, loadData] = useState([]);
   let [isLoading, setIsLoading] = useState(true);
   let [singleLoad, setSingleLoad] = useState(true);
-  const [blogs, setBlogs] = useState([]);
-  const temp = [];
+  var dataList = [];
   const writeToClipboard = async () => {
     await Clipboard.setString(data);
     alert("Copied to Clipboard!");
@@ -47,13 +48,15 @@ const ClipboardList = () => {
       .on("value", function (snapshot) {
         snapshot.forEach(function(data) {
           console.log(data);
+          dataList.push(data);
         })
         // uData = snapshot.val()["clipboard"];
         // console.log("udata: " + uData);
         // setSingleLoad(false);
       });
   }
-
+  dataList = dataList.reverse();
+  console.log(dataList.length);
   console.log("MADE IT HERE");
 
   // firebase
@@ -64,17 +67,18 @@ const ClipboardList = () => {
   //     console.log("udata: " + uData);
   //   });
 
-  const renderItem = ({ item }) => (
-    <Item date={item.date} content={item.content} />
-  );
-
-  return singleLoad ? (
-    <ActivityIndicator size="large" style={{ flex: 0.5 }} />
-  ) : (
+  const renderItem = ({ item }) => {
+    return (<Item item={item}/>);
+  };
+  console.log("single load is "+ singleLoad);
+  return (
     <SafeAreaView style={{ flex: 1 }}>
-      <TouchableOpacity style={styles.item} onPress={writeToClipboard}>
-        <Text style={styles.clipboardContent}>{data}</Text>
-      </TouchableOpacity>
+      {/* <TouchableOpacity style={styles.item} onPress={writeToClipboard}> */}
+        <FlatList
+          data={dataList}
+          renderItem={renderItem}
+        />
+      {/* </TouchableOpacity> */}
     </SafeAreaView>
   );
 };

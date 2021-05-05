@@ -35,7 +35,7 @@ const ClipboardContainer = ({ navigation }) => {
         name: "New User",
         uid: UID,
         created_at: Date.now(),
-        clipboard: ["",""],
+        clipboard: [],
       });
   }
 
