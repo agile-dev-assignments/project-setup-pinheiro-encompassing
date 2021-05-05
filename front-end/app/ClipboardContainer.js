@@ -11,7 +11,6 @@ import {
 import ClipboardList from "./ClipboardList";
 import ConnectedDevicesContainer from "./ConnectedDevicesContainer";
 import AddToCopyPastaButton from "./AddToCopyPastaButton";
-import CopyPastedCode from "./CopyPastedCode";
 import LogoutButton from "./Logout";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoginScreen from "./LoginScreen";
@@ -102,9 +101,6 @@ const ClipboardContainer = ({ navigation }) => {
         ></TextInput>
         <TouchableOpacity style={styles.button}>
          <AddToCopyPastaButton copyText={text}/>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-         <CopyPastedCode/>
         </TouchableOpacity>
         <ClipboardList />
       </View>

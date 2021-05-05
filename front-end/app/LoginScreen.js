@@ -78,13 +78,7 @@ const LoginScreen = ({ navigation }) => {
             console.log("HERE");
             console.log(userName);
             console.log("HERE2");
-            //get's user ID
-            var tmp = result.additionalUserInfo.profile.sub;
-            console.log("TESTING ID OUTPUT");
-            console.log(tmp);
-            console.log(result.additionalUserInfo.profile.sub);
-            id = String(tmp).slice(-8)
-            console.log(id);
+            console.log(name);
 
             console.log("TESTING UID");
             //console.log(generateUID());
@@ -157,15 +151,15 @@ const LoginScreen = ({ navigation }) => {
             // The email of the user's account used.
             var email = error.email;
             // The firebase.auth.AuthCredential type that was used.
-            var errorCredential = error.credential;
+            var credential = error.credential;
             // ...
-            console.log("Error code: " + errorCode);
-            console.log("Error Message: " + errorMessage);
+            console.log("Error code: " + error.code);
+            console.log("Error Message: " + error.message);
             console.log("Email: " + email);
-            console.log("Credential: " + errorCredential);
+            console.log("Credential: " + error.credential);
           });
       } else {
-        console.log("User already signed-in to Firebase.");
+        console.log("User already signed-in Firebase.");
       }
     });
   }
