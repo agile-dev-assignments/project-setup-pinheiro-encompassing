@@ -3,7 +3,6 @@ node_js:
   - "node"
 install:
   - yarn add expo
-  - npm install
 before_script:
   - cd front-end
 script:
