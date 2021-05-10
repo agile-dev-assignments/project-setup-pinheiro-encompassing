@@ -19,6 +19,7 @@ var uData = "";
 
 const Item = ({ item }) => {
   console.log("current item is=" + JSON.stringify(item));
+  console.log("user id is " + userID);
   console.log(JSON.stringify(item));
   const writeToClipboard = async () => {
     console.log("you saw me in write to clipboard!!!");

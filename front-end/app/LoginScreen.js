@@ -195,6 +195,7 @@ const LoginScreen = ({ navigation }) => {
           if (data.child("uid").val() == code){
             userID = data.child("uid").val();
             userName = data.child("name").val();
+            complete = true;
           }
         });
       });
