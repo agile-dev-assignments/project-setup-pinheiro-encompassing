@@ -7,6 +7,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Clipboard,
 } from "react-native";
 import ClipboardList from "./ClipboardList";
 import ConnectedDevicesContainer from "./ConnectedDevicesContainer";
@@ -20,12 +21,12 @@ import firebase from "firebase";
 
 const ClipboardContainer = ({ navigation }) => {
   var [nameValue, setNameValue] = useState("");
-  var [text,setText] = useState("");  
+  var [text, setText] = useState("");
   var user = userName;
   var UID = userID;
-  if (user == "" && UID == ""){
+  if (user == "" && UID == "") {
     user = "New User";
-    UID = generateUID() 
+    UID = generateUID();
     firebase
       .database()
       .ref("/users/" + UID)
@@ -35,15 +36,16 @@ const ClipboardContainer = ({ navigation }) => {
         name: "New User",
         uid: UID,
         created_at: Date.now(),
+        clipboard: [],
       });
   }
 
-  console.log("clipboard username="+user);
+  console.log("clipboard username=" + user);
   console.log("clipboard userid=" + UID);
 
   useEffect(() => {
     getData();
-  });
+  }, []);
 
   async function getData() {
     try {
@@ -56,6 +58,12 @@ const ClipboardContainer = ({ navigation }) => {
       // error reading value
     }
   }
+  const writeToClipboard= async () => {
+    console.log("you saw me in write to clipboard!!!");
+    console.log(UID);
+    await Clipboard.setString(UID);
+    alert("Copied to Clipboard!");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -88,7 +96,9 @@ const ClipboardContainer = ({ navigation }) => {
               flex: 0.3,
             }}
           >
-            <Text style={styles.containerDetailText}>UID: #{UID}</Text>
+            <TouchableOpacity onPress={writeToClipboard}>
+              <Text style={styles.containerDetailText}>UID: #{UID}</Text>
+            </TouchableOpacity>
           </View>
         </View>
         <TextInput
@@ -100,7 +110,7 @@ const ClipboardContainer = ({ navigation }) => {
           clearButtonMode="always"
         ></TextInput>
         <TouchableOpacity style={styles.button}>
-         <AddToCopyPastaButton copyText={text}/>
+          <AddToCopyPastaButton copyText={text} />
         </TouchableOpacity>
         <ClipboardList />
       </View>
@@ -112,11 +122,11 @@ const ClipboardContainer = ({ navigation }) => {
 };
 
 function generateUID() {
-  var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  var charsLengthMinusOne = chars.length - 1
-  var result = ''
+  var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  var charsLengthMinusOne = chars.length - 1;
+  var result = "";
   for (var i = 8; i > 0; --i)
-      result += chars[Math.round(Math.random() * (charsLengthMinusOne))]
+    result += chars[Math.round(Math.random() * charsLengthMinusOne)];
   return result;
 }
 
