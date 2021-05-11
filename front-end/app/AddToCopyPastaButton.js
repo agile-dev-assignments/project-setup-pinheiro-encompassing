@@ -8,7 +8,8 @@ const AddToCopyPastaButton = ({ copyText }) => {
   const cl = async () => {
     console.log("made it here");
     console.log(copyText);
-    firebase.database().ref("/users/"+userID).update({clipboard: copyText});
+    // firebase.database().ref("/users/"+userID).update({clipboard: copyText});
+    textID = firebase.database().ref("/users/"+userID+"/clipboard").push(copyText);
   };
   return (
     <TouchableOpacity style={styles.button} onPress={cl}>
